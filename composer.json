@@ -1,0 +1,28 @@
+{
+    "name":              "sakura/sakura",
+    "description":       "Static site generator",
+    "version":           "0.0.1",
+    "homepage":          "http://albertopiu.com/project/sakura",
+    "license":           "MIT",
+    "authors":           [
+        {
+            "name":     "Alberto Piu",
+            "email":    "alberteddu@gmail.com",
+            "homepage": "http://albertopiu.com"
+        }
+    ],
+    "require":           {
+        "sakura/branches": "dev-master",
+        "symfony/console": "2.4.*@dev"
+    },
+    "require-dev":       {
+        "phing/phing":     "*",
+        "phpunit/phpunit": "*"
+    },
+    "autoload":          {
+        "psr-0": {
+            "Sakura": "src"
+        }
+    },
+    "minimum-stability": "dev"
+}

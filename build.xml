@@ -1,0 +1,40 @@
+<project name="Sakura" default="test">
+    <target name="prepare-api">
+        <mkdir dir="docs" />
+    </target>
+
+    <target name="prepare-test">
+        <mkdir dir="build/coverage" />
+        <mkdir dir="build/coverage/report/" />
+    </target>
+
+    <target name="api" depends="prepare-api">
+        <phpdoc2 title="API Documentation"
+                 destdir="docs"
+                 template="clean">
+            <fileset dir="src">
+                <include name="**/*.php" />
+            </fileset>
+        </phpdoc2>
+    </target>
+
+    <target name="test" depends="prepare-test">
+        <echo>Running tests...</echo>
+        <coverage-setup database="build/coverage/database.db">
+            <fileset dir="src">
+                <include name="**/*.php"/>
+                <exclude name="**/*Exception.php" />
+            </fileset>
+        </coverage-setup>
+        <phpunit codecoverage="true" haltonfailure="true" printsummary="true" haltonerror="true">
+            <batchtest>
+                <fileset dir="build/tests">
+                    <include name="**/*Test*.php"/>
+                </filesetw>
+            </batchtest>
+        </phpunit>
+        <coverage-report outfile="build/coverage/report.xml">
+            <report toDir="./build/coverage/report" />
+        </coverage-report>
+    </target>
+</project>
