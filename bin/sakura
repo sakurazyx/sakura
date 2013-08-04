@@ -5,9 +5,13 @@ require __DIR__ . '/../vendor/autoload.php';
 
 use Sakura\Sakura;
 use Sakura\Command;
-use Symfony\Component\Console\Application;
 
-$application = new Application(Sakura::APPLICATION_NAME, Sakura::APPLICATION_VERSION);
+use Symfony\Component\Console\Application;
+use \Symfony\Component\Console\Formatter\OutputFormatterStyle;
+
+Command\SelfUpdateCommand::checkVersion();
+
+$application = new Application(Sakura::APPLICATION_NAME, "0.0.2");
 $application->add(new Command\BuildCommand);
 $application->add(new Command\SelfUpdateCommand);
 $application->run();

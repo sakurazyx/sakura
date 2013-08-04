@@ -7,11 +7,15 @@ use Sakura\Sakura;
 use Herrera\Phar\Update\Manager;
 use Herrera\Phar\Update\Manifest;
 
+use Seld\JsonLint\JsonParser;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
+use Symfony\Component\Console\Formatter\OutputFormatterStyle;
+
+use Herrera\Json\Json;
 
 /**
  * Class SelfUpdateCommand
@@ -29,5 +33,25 @@ class SelfUpdateCommand extends Command {
     public function execute(InputInterface $input, OutputInterface $output) {
         $manager = new Manager(Manifest::loadFile(self::MANIFEST_FILE));
         $manager->update($this->getApplication()->getVersion(), true);
+    }
+
+    public static function checkVersion() {
+        $output = new \Symfony\Component\Console\Output\ConsoleOutput();
+        $style  = new OutputFormatterStyle('red', null, array('bold'));
+        $output->getFormatter()->setStyle('warning', $style);
+
+        $json = new Json();
+        $data = $json->decodeFile(self::MANIFEST_FILE);
+        $data = array_map(function ($item) {
+            return $item->version;
+        }, $data);
+
+        sort($data);
+
+        $lastVersion = $data[count($data) - 1];
+
+        if($lastVersion > Sakura::APPLICATION_VERSION) {
+            $output->writeln("\n<warning>There is a new version available ($lastVersion). Consider running self-update.</warning>\n");
+        }
     }
 }
