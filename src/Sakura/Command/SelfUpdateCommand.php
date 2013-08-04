@@ -2,6 +2,7 @@
 
 namespace Sakura\Command;
 
+use Sakura\Sakura;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
@@ -9,25 +10,16 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Class BuildCommand
+ * Class SelfUpdateCommand
  *
  * @package Sakura\Command
  */
-class BuildCommand extends Command {
-    /**
-     * Configure build command
-     */
+class SelfUpdateCommand extends Command {
     public function configure() {
-        $this->setName('build')
-            ->setDescription('Build website');
+        $this->setName('self-update')
+            ->setDescription('Update ' . Sakura::APPLICATION_NAME . ' to the last version');
     }
 
-    /**
-     * @param InputInterface  $input
-     * @param OutputInterface $output
-     *
-     * @return int|null|void
-     */
     public function execute(InputInterface $input, OutputInterface $output) {
 
     }

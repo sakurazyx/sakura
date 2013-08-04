@@ -12,8 +12,9 @@
         }
     ],
     "require":           {
-        "sakura/branches": "dev-master",
-        "symfony/console": "2.4.*@dev"
+        "sakura/branches":        "dev-master",
+        "symfony/console":        "2.4.*@dev",
+        "herrera-io/phar-update": "1.*"
     },
     "require-dev":       {
         "phing/phing":     "*",

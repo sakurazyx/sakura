@@ -9,4 +9,5 @@ use Symfony\Component\Console\Application;
 
 $application = new Application(Sakura::APPLICATION_NAME, Sakura::APPLICATION_VERSION);
 $application->add(new Command\BuildCommand);
+$application->add(new Command\SelfUpdateCommand);
 $application->run();

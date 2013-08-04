@@ -4,18 +4,21 @@
         "src"
     ],
     "files":       [
-        "LICENSE",
-        "README.md"
+        "LICENSE"
     ],
     "finder":      [
         {
             "name":    "*.php",
-            "exclude": ["Tests"],
+            "exclude": [
+                "Tests",
+                "tests",
+                "phing",
+                "phpunit"
+            ],
             "in":      "vendor"
         }
     ],
-    "git-version": "0.0.1",
     "main":        "bin/sakura",
-    "output":      "sakura.phar",
+    "output":      "bin/sakura.phar",
     "stub":        true
 }
