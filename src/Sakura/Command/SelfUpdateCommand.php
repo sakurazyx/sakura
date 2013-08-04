@@ -34,24 +34,4 @@ class SelfUpdateCommand extends Command {
         $manager = new Manager(Manifest::loadFile(self::MANIFEST_FILE));
         $manager->update($this->getApplication()->getVersion(), true);
     }
-
-    public static function checkVersion() {
-        $output = new \Symfony\Component\Console\Output\ConsoleOutput();
-        $style  = new OutputFormatterStyle('red', null, array('bold'));
-        $output->getFormatter()->setStyle('warning', $style);
-
-        $json = new Json();
-        $data = $json->decodeFile(self::MANIFEST_FILE);
-        $data = array_map(function ($item) {
-            return $item->version;
-        }, $data);
-
-        sort($data);
-
-        $lastVersion = $data[count($data) - 1];
-
-        if($lastVersion > Sakura::APPLICATION_VERSION) {
-            $output->writeln("\n<warning>There is a new version available ($lastVersion). Consider running self-update.</warning>\n");
-        }
-    }
 }
