@@ -24,14 +24,27 @@ use Herrera\Json\Json;
  */
 class SelfUpdateCommand extends Command {
     const MANIFEST_FILE = "http://alberteddu.github.com/sakura/manifest.json";
+    const VERSION_FILE = "http://alberteddu.github.com/sakura/latest.txt";
 
-    public function configure() {
-        $this->setName('self-update')
-            ->setDescription('Update ' . Sakura::APPLICATION_NAME . ' to the last version');
+    /**
+     * Is there a new version available?
+     */
+    public static function newVersionAvailable() {
+        $version = trim(@file_get_contents(self::VERSION_FILE));
+        if($version > Sakura::APPLICATION_VERSION) {
+            return $version;
+        }
+
+        return false;
     }
 
     public function execute(InputInterface $input, OutputInterface $output) {
         $manager = new Manager(Manifest::loadFile(self::MANIFEST_FILE));
         $manager->update($this->getApplication()->getVersion(), true);
+    }
+
+    public function configure() {
+        $this->setName('self-update')
+            ->setDescription('Update ' . Sakura::APPLICATION_NAME . ' to the last version');
     }
 }

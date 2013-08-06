@@ -11,10 +11,18 @@
             "homepage": "http://albertopiu.com"
         }
     ],
+    "repositories":      [
+        {
+            "type": "vcs",
+            "url":  "https://github.com/alberteddu/soar"
+        }
+    ],
     "require":           {
+        "soar/soar":              "dev-master",
         "sakura/branches":        "dev-master",
         "symfony/console":        "2.4.*@dev",
-        "herrera-io/phar-update": "1.*"
+        "herrera-io/phar-update": "1.*",
+        "react/http":             "0.3.*@dev"
     },
     "require-dev":       {
         "phing/phing":     "*",

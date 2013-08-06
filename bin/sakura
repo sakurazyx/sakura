@@ -7,9 +7,18 @@ use Sakura\Sakura;
 use Sakura\Command;
 
 use Symfony\Component\Console\Application;
-use \Symfony\Component\Console\Formatter\OutputFormatterStyle;
+use \Symfony\Component\Console\Input\ArgvInput;
+use \Symfony\Component\Console\Output\ConsoleOutput;
+
+
+//if(($version = Command\SelfUpdateCommand::newVersionAvailable()) !== true) {
+//    $command = new Command\VersionAvailableCommand($version);
+//    $command->execute(new ArgvInput, new ConsoleOutput);
+//}
 
 $application = new Application(Sakura::APPLICATION_NAME, Sakura::APPLICATION_VERSION);
 $application->add(new Command\BuildCommand);
 $application->add(new Command\SelfUpdateCommand);
+$application->add(new Command\NewCommand);
+$application->add(new Command\ServerCommand);
 $application->run();
