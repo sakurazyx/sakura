@@ -11,6 +11,11 @@ use Sakura\Exception\ContentDirectoryNotFoundException;
 use Sakura\Exception\SiteDirectoryInvalidException;
 use Sakura\Exception\TemplatesDirectoryNotFoundException;
 
+use Symfony\Component\Templating\PhpEngine;
+use Symfony\Component\Templating\TemplateNameParser;
+use Symfony\Component\Templating\Loader\FilesystemLoader;
+use Symfony\Component\Templating\Helper\SlotsHelper;
+
 /**
  * Class Sakura
  *
@@ -53,8 +58,11 @@ class Sakura {
     /** @var Site Instance of site to be passed to templates */
     protected $site;
 
-    /** @var \Twig_Environment Instance of twig */
-    protected $twig;
+    /** @var FileSystemLoader */
+    protected $loader;
+
+    /** @var PhpEngine Instance of twig */
+    protected $view;
 
     /**
      * @param        $directory
@@ -89,24 +97,99 @@ class Sakura {
         $this->branches = new Branches($directory . '/' . $contentDirectory);
         $this->branches->setNodeProvider(array($this, 'nodeProvider'));
         $this->branches->registerPropertiesCallback(array($this, 'addInvisibleToPage'));
+        $this->branches->setDirectoryTest(array($this, 'directoryTest'));
+        $this->branches->setDirectoryTransform(array($this, 'directoryTransform'));
 
         // Set up site
         $this->site = new Site($siteProperties);
 
-        // Set up twig
-        $loader     = new \Twig_Loader_Filesystem($this->pathAt($this->templatesDirectory));
-        $this->twig = new \Twig_Environment($loader, array(
-            'debug' => true
-        ));
-        $this->twig->addExtension(new \Twig_Extension_Debug);
+        // Set up templates
+        $this->loader = new FilesystemLoader($this->templatesDirectory . '/%name%');
+        $this->view   = new PhpEngine(new TemplateNameParser(), $this->loader);
+        $this->view->set(new SlotsHelper());
     }
 
-    public function getContentDirectory() {
-        return $this->contentDirectory;
+    /**
+     * Branches directory transform (for directories
+     * like 01-blog).
+     *
+     * @param $directory
+     *
+     * @return mixed
+     */
+    public function directoryTransform($directory) {
+        if(preg_match('/^\d+\-(.*)/', $directory, $matches)) {
+            return $matches[1];
+        }
+
+        return $directory;
     }
 
+    /**
+     * Branches directory test
+     *
+     * @param $directory
+     * @param $urlSegment
+     *
+     * @return bool
+     */
+    public function directoryTest($directory, $urlSegment) {
+        if(preg_match('/^\d+\-' . preg_quote($urlSegment) . '/', $directory)) {
+            return $directory;
+        }
+
+        return false;
+    }
+
+    /**
+     * Get content directory
+     *
+     * @param string $path
+     *
+     * @return string
+     */
+    public function getContentDirectory($path = '') {
+        return $this->pathAt($this->contentDirectory) . '/' . $path;
+    }
+
+    /**
+     * Get templates directory
+     *
+     * @param string $path
+     *
+     * @return string
+     */
+    public function getTemplatesDirectory($path = '') {
+        return $this->pathAt($this->templatesDirectory) . '/' . $path;
+    }
+
+    /**
+     * Get site directory
+     *
+     * @param string $path
+     *
+     * @return string
+     */
+    public function getSiteDirectory($path = '') {
+        return $this->pathAt($this->siteDirectory) . '/' . $path;
+    }
+
+    /**
+     * Get branches instance
+     *
+     * @return Branches|string
+     */
     public function getBranches() {
         return $this->branches;
+    }
+
+    /**
+     * Get view instance
+     *
+     * @return PhpEngine
+     */
+    public function getView() {
+        return $this->view;
     }
 
     /**
@@ -144,6 +227,8 @@ class Sakura {
      * @return array
      */
     public function siteProperties() {
+        if(!is_readable($this->pathAt(self::CONFIG_FILE)) or !is_file($this->pathAt(self::CONFIG_FILE))) return array();
+
         return Yaml::parse(file_get_contents($this->pathAt(self::CONFIG_FILE)));
     }
 
@@ -193,7 +278,7 @@ class Sakura {
             $page = $this->branches->get($page);
         }
 
-        return $this->twig->render($this->templateNameForPage($page) . '.twig', array(
+        return $this->view->render($this->templateNameForPage($page) . '.php', array(
             'site' => $this->site,
             'page' => $page
         ));

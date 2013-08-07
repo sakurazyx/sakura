@@ -22,7 +22,8 @@
         "sakura/branches":        "dev-master",
         "symfony/console":        "2.4.*@dev",
         "herrera-io/phar-update": "1.*",
-        "react/http":             "0.3.*@dev"
+        "react/http":             "0.3.*@dev",
+        "symfony/templating":     "2.4.*@dev"
     },
     "require-dev":       {
         "phing/phing":     "*",

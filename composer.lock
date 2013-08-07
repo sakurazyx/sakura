@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "937637a8b90a5ad380506f91ea5df265",
+    "hash": "43c2d3db2ef2fc4d13772778b9100b7c",
     "packages": [
         {
             "name": "evenement/evenement",
@@ -733,6 +733,53 @@
             "time": "2013-07-31 16:17:51"
         },
         {
+            "name": "symfony/templating",
+            "version": "dev-master",
+            "target-dir": "Symfony/Component/Templating",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/Templating.git",
+                "reference": "47d3a18b303613d151c312755169147e84953958"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/Templating/zipball/47d3a18b303613d151c312755169147e84953958",
+                "reference": "47d3a18b303613d151c312755169147e84953958",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.4-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Symfony\\Component\\Templating\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "http://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Templating Component",
+            "homepage": "http://symfony.com",
+            "time": "2013-07-21 20:19:01"
+        },
+        {
             "name": "symfony/yaml",
             "version": "dev-master",
             "target-dir": "Symfony/Component/Yaml",
@@ -785,12 +832,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fabpot/Twig.git",
-                "reference": "e0fbce2fc0e7289a0c47c5fe4dbf2b9ea6c212d2"
+                "reference": "fcf007e9a2e6c65594360ae7fa3c410ae8d56a11"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fabpot/Twig/zipball/e0fbce2fc0e7289a0c47c5fe4dbf2b9ea6c212d2",
-                "reference": "e0fbce2fc0e7289a0c47c5fe4dbf2b9ea6c212d2",
+                "url": "https://api.github.com/repos/fabpot/Twig/zipball/fcf007e9a2e6c65594360ae7fa3c410ae8d56a11",
+                "reference": "fcf007e9a2e6c65594360ae7fa3c410ae8d56a11",
                 "shasum": ""
             },
             "require": {
@@ -826,7 +873,7 @@
             "keywords": [
                 "templating"
             ],
-            "time": "2013-08-06 05:46:34"
+            "time": "2013-08-07 12:53:34"
         }
     ],
     "packages-dev": [
@@ -1419,7 +1466,8 @@
         "soar/soar": 20,
         "sakura/branches": 20,
         "symfony/console": 20,
-        "react/http": 20
+        "react/http": 20,
+        "symfony/templating": 20
     },
     "platform": [
 
